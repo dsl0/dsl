@@ -1,118 +1,43 @@
-def average(Fds):
-    sum=0
-    count=0
-    for i in range(len(Fds)):
-        if Fds[i]!=200:
-            sum+=Fds[i]
-            count+=1
-    avg=sum/count
-    print("Total Marks : ", sum)
-    print("Average Marks : {:.2f}".format(avg))
+def average(marks):
+    valid_marks = [m for m in marks if m != 200]
+    print(f"Total Marks: {sum(valid_marks)}")
+    print(f"Average Marks: {sum(valid_marks) / len(valid_marks):.2f}")
 
-def Maximum(Fds):
-    for i in range(len(Fds)):
-        if Fds[i]!=200:
-            Max=Fds[0]
-            break
-    for i in range(1,len(Fds)):
-        if Fds[i]>Max:
-            Max=Fds[i]
-    return(Max)
+def maximum(marks):
+    return max(m for m in marks if m != 200)
 
-def Minimum(Fds):
-    for i in range(len(Fds)):
-        if Fds[i]!=200:
-            Min=Fds[0]
-            break
-    for i in range(1,len(Fds)):
-        if Fds[i]<Min:
-            Min=Fds[i]
-    return(Min)
+def minimum(marks):
+    return min(m for m in marks if m != 200)
 
+def absent_count(marks):
+    return marks.count(200)
 
-def absentcount(Fds):
-    count=0
-    for i in range(len(Fds)):
-        if Fds[i]==200:
-            count+=1
-    return(count)
+def max_frequency(marks):
+    freq = {m: marks.count(m) for m in set(marks) if m != 200}
+    mark, count = max(freq.items(), key=lambda x: x[1])
+    print("Marks | Frequency")
+    for m, f in freq.items():
+        print(f"{m:<5} | {f}")
+    return mark, count
 
-def maxFrequency(Fds):
-    i=0
-    Max=0
-    print("Marks  |  Frequency")
-    for j in Fds:
-        if (Fds.index(j)==i):
-            print(j,"    |  ",Fds.count(j))
-            if Fds.count(j)>Max:
-                Max=Fds.count(j)
-                mark=j
-        i=i+1
-    return(mark,Max)
-
-marksinFDS=[]
-numberofstudents=int(input("Enter total number of students : "))
-for i in range(numberofstudents):
-    marks=int(input("Enter marks of student "+str(i+1)+" : "))
-    marksinFDS.append(marks)
-
-flag=1
-while flag==1:
-    print("\n\n----------MENU---------\n")
-    print("1. Total and Average Marks ")
-    print("2. Highest and Lowest Marks ")
-    print("3. Number of Students absent ")
-    print("4. Marks with Highest Frequency")
-    print("5. Exit\n")
-    ch=int(input("Enter your Choice (from 1 to 5) :"))
-
-    if ch==1:
-        average(marksinFDS)
-        a = input("Do you want to continue (yes/no) :")
-        if a == "yes":
-            flag = 1
-        else:
-            flag = 0
-            print("Thanks for using this program!")
-
-    elif ch==2:
-        print("Highest Score in Class : ", Maximum(marksinFDS))
-        print("Lowest Score in Class : ", Minimum(marksinFDS))
-        a = input("Do you want to continue (yes/no) :")
-        if a == "yes":
-            flag = 1
-        else:
-            flag = 0
-            print("Thanks for using this program!")
-
-    elif ch==3:
-        print("Number of Students absent in the test : ", absentcount(marksinFDS))
-        a = input("Do you want to continue (yes/no) :")
-        if a == "yes":
-            flag = 1
-        else:
-            flag = 0
-            print("Thanks for using this program!")
-
-    elif ch==4:
-        mark,fr = maxFrequency(marksinFDS)
-        print("Highest frequency is of marks {0} that is {1} ".format(mark,fr))
-        a = input("Do you want to continue (yes/no) :")
-        if a == "yes":
-            flag = 1
-        else:
-            flag = 0
-            print("Thanks for using this program!")
-
-    elif ch==5:
-        flag=0
-        print("Thanks for using this program!")
-
+marks = [int(input(f"Enter marks for student {i+1} (200 for absent): ")) for i in range(int(input("Enter number of students: ")))]
+while True:
+    print("\n1. Total and Average\n2. Highest and Lowest\n3. Absent Count\n4. Max Frequency\n5. Exit")
+    choice = int(input("Enter choice: "))
+    
+    if choice == 1:
+        average(marks)
+    elif choice == 2:
+        print(f"Highest Marks: {maximum(marks)}")
+        print(f"Lowest Marks: {minimum(marks)}")
+    elif choice == 3:
+        print(f"Absent Count: {absent_count(marks)}")
+    elif choice == 4:
+        mark, freq = max_frequency(marks)
+        print(f"Highest frequency: {freq} for marks {mark}")
+    elif choice == 5:
+        print("Thank you for using the program!")
+        break
     else:
-        print("!!Wrong Choice!! ")
-        a=input("Do you want to continue (yes/no) :")
-        if a=="yes":
-            flag=1
-        else:
-            flag=0
-            print("Thanks for using this program!")
+        print("Invalid choice. Try again.")
+
